@@ -5,13 +5,13 @@ from django import http
 # Create your views here.
 
 
-def index(request: http.request) -> http.Response:
+def index(request: http.HttpRequest) -> http.HttpResponse:
     pass
 
 
-def login(request: http.Request) -> http.Response:
+def login(request: http.HttpRequest) -> http.HttpResponse:
     pass
 
 
-def signup(request: http.Request) -> http.Response:
+def signup(request: http.HttpRequest) -> http.HttpResponse:
     pass
