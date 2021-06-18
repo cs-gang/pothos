@@ -6,9 +6,12 @@ class User(models.Model):
     Database model representing a Pothos user.
     """
 
-    id = models.BigAutoField(primary_key=True)
+    id = models.TextField(primary_key=True)
     username = models.CharField(max_length=30, null=False)
     email = models.TextField(unique=True)
+
+    def __str__(self) -> str:
+        return f"<Pothos User {self.id} {self.username}>"
 
 
 class Transaction(models.Model):
@@ -30,3 +33,9 @@ class Transaction(models.Model):
     transaction_time = models.DateTimeField()
     name = models.CharField(max_length=30)
     notes = models.TextField(null=True)
+
+    def __str__(self) -> str:
+        return (
+            f"<Transaction {self.transaction_time.upper()} by {self.user} - {self.amount} "
+            f"at {self.transaction_time}>"
+        )
