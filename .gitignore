@@ -133,3 +133,6 @@ dmypy.json
 
 # node modules
 /node_modules
+
+# firebase stuff
+firebase-credentials.json
