@@ -76,7 +76,7 @@
             </nav>
         </div>
     </div>
-    <div class="button is-primary is-rounded is-pulled-right" data-target="modal"> &plus; </div>
+    <div class="button is-primary is-rounded is-pulled-right" id="ModalButton" data-target="modal"> &plus; </div>
     <div class="modal">
         <div class="modal-background"></div>
         <div class="modal-content">
@@ -129,7 +129,34 @@
                 </div>
             </form>
         </div>
+        <div class="modal-close is-large"></div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+    let loginModalButton = document.getElementById("ModalButton");
+    let modalBG = document.querySelector(".modal-background")
+    let modalExit = document.querySelector(".modal-close")
+
+    loginModalButton.addEventListener(
+        "click",
+        () => { document.querySelector(".modal").classList.add("is-active"); }
+    )
+
+    modalBG.addEventListener(
+        "click",
+        () => { document.querySelector(".modal").classList.remove("is-active"); }
+    )
+
+    modalExit.addEventListener(
+        "click",
+        () => { document.querySelector(".modal").classList.remove("is-active"); }
+    )
+
+</script>
 {% endblock %}
