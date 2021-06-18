@@ -2,12 +2,12 @@
 import json
 from datetime import datetime, timedelta
 from functools import wraps
-from typing import Any, Callable, Literal, Optional, Union
+from typing import Any, Callable, List, Literal, Optional, Union
+from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 
 import requests
 import firebase_admin
-from requests.sessions import session
 from decouple import config
 from django import http
 from firebase_admin import auth, credentials, exceptions
@@ -44,12 +44,14 @@ def _create_user(
             ) from e
 
 
-def _save_user_to_db(user: UserRecord) -> models.User:
+def _save_user_to_db(user: UserRecord, currency: str) -> models.User:
     """
     Saves a user to our database.
     This function is meant to be used after a user is created on firebase.
     """
-    _db_user = models.User(id=user.uid, username=user.display_name, email=user.email)
+    _db_user = models.User(
+        id=user.uid, username=user.display_name, email=user.email, currency=currency
+    )
     _db_user.save()
     return _db_user
 
@@ -207,14 +209,17 @@ class User:
     Represents a user of Pothos.
     """
 
-    def __init__(self, id: str, username: str, email: str) -> None:
+    def __init__(self, id: str, username: str, email: str, currency: str) -> None:
         self.username = username
         self.id = id
         self.email = email
+        self.currency = currency
         self._db_user = None
 
     @classmethod
-    def create(cls, *, username: str, email: str, password: str) -> "User":
+    def create(
+        cls, *, username: str, email: str, password: str, currency: str
+    ) -> "User":
         """
         Creates a new user and saves their details to Firebase and our database.
         All arguments must be provided as keyword-arguments.
@@ -234,9 +239,9 @@ class User:
         if not firebase_user:
             raise ValueError("Firebase user creation failed")
 
-        db_user = _save_user_to_db(firebase_user)
+        db_user = _save_user_to_db(firebase_user, currency)
 
-        new_pothos_user = cls(firebase_user.uid, username, email)  # type: ignore
+        new_pothos_user = cls(firebase_user.uid, username, email, currency)  # type: ignore
         new_pothos_user._db_user = db_user
 
         return new_pothos_user
@@ -253,11 +258,58 @@ class User:
             username=from_firebase.display_name,  # type: ignore
             email=from_firebase.email,  # type: ignore
             id=uid,
+            currency=from_db.currency,
         )
 
         obj._db_user = from_db
 
         return obj
+
+    def get_transactions(self) -> QuerySet:
+        """
+        Retrieve the user's transactions from the database.
+        """
+        return models.User.transaction_set.all()  # type: ignore
+
+    def create_transaction(
+        self, transaction_type: str, amount: float, name: str, notes: Optional[str] = ""
+    ) -> models.Transaction:
+        """
+        Create and save a new transaction for the user on the database.
+
+        Arguments:
+            transaction_type -> The type of transaction. Must be either "income" or "expenditure".
+            amount
+            name
+            notes -> Any optional notes for the transaction.
+        """
+        tr = models.Transaction(
+            user=self.id,
+            transaction_type=transaction_type,
+            amount=amount,
+            transaction_time=datetime.utcnow(),
+            name=name,
+            notes=notes,
+        )
+        tr.save()
+        return tr
+
+    def update_transaction(
+        self, transaction_id: int, **fields: Any
+    ) -> models.Transaction:
+        """
+        Updates the transaction with the specified ID with the given fields.
+        """
+        tr = models.Transaction(id=transaction_id, **fields)
+        tr.save()
+        return tr
+
+    def delete_transaction(self, transaction_id: int) -> None:
+        """
+        Deletes a transaction with the specified ID.
+        """
+        tr = models.User.transaction_set.get(pk=transaction_id)  # type: ignore
+        tr.delete()
 
 
 class AuthenticationError(Exception):
