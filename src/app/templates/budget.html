@@ -76,7 +76,60 @@
             </nav>
         </div>
     </div>
-    <div class="button is-primary is-rounded is-pulled-right"> &plus; </div>
+    <div class="button is-primary is-rounded is-pulled-right" data-target="modal"> &plus; </div>
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <form class="box has-background-warning columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="budget-title" class="label">Title</label>
+                        <div class="control">
+                            <input type="text" id="budget-title" placeholder="Enter the name/title: " class="input">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="budget-amount" class="label">Amount</label>
+                        <div class="control">
+                            <input type="text" id="budget-amount" placeholder="Enter the amount: " class="input">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="budget-date" class="label">Date</label>
+                        <div class="control">
+                            <input type="date" id="budget-date">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-link">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="spending-type" class="label">Type</label>
+                        <div class="control select">
+                            <select name="spending-type" id="spending-type">
+                                <option value="Rent">Rent</option>
+                                <option value="Food/Groceries">Food/Groceries</option>
+                                <option value="Material Goods">Material Goods</option>
+                                <option value="Investment">Investment</option>
+                                <option value="Entertainment">Entertainment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="budget-notes" class="label">Notes</label>
+                        <div class="control">
+                            <textarea name="budget-notes" id="budget-notes" cols="30" rows="3"
+                                class="textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
