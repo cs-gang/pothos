@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %} Budget {% endblock %}
+
+{% block navbuttons %} {% endblock %}
+
+{% block signin %}
+<a href="" class="navbar-item">Sign out</a>
+{% endblock %}
+
+{% block mainbody %}
+
+<div class="tabs is-fullwidth">
+    <ul>
+        <li>
+            <a>
+                <span class="icon"><i class="fas fa-angle-left" aria-hidden="true"></i></span>
+                <span>Budget</span>
+            </a>
+        </li>
+        <li>
+            <a>
+                <span class="icon"><i class="fas fa-angle-up" aria-hidden="true"></i></span>
+                <span>Analysis</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="box has-background-warning mx-3 my-4">
+    <div class="columns">
+        <p class="column is-size-5">Total Income: </p>
+        <p class="column is-size-5">Total Spending: </p>
+        <p class="column is-size-5">Remaining Amount: </p>
+    </div>
+</div>
+
+<div class="box has-background-warning mx-3 my-4">
+    <div class="columns">
+        <div class="column px-6">
+            <div class="block has-background-primary py-2 px-4">
+                <span class="is-size-5">Salary</span>
+                <div class="is-pulled-right">
+                    <button class="icon is-small">
+                        <i class="fas"></i>
+                    </button>
+                    <button class="delete is-medium"></button>
+                </div>
+            </div>
+
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <a class="pagination-previous">Previous</a>
+                <a class="pagination-next">Next page</a>
+                <ul class="pagination-list">
+                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="column px-6">
+            <div class="block has-background-danger py-2 px-4">
+                <span class="is-size-5">Spending</span>
+                <div class="is-pulled-right">
+                    <span class="tag is-success">Rent</span>
+                    <button class="icon is-small">
+                        <i class="fas"></i>
+                    </button>
+                    <button class="delete is-medium"></button>
+                </div>
+            </div>
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <a class="pagination-previous">Previous</a>
+                <a class="pagination-next">Next page</a>
+                <ul class="pagination-list">
+                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="button is-primary is-rounded is-pulled-right"> &plus; </div>
+</div>
+
+{% endblock %}
