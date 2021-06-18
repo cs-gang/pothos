@@ -3,6 +3,7 @@ import json
 from datetime import datetime, timedelta
 from functools import wraps
 from typing import Any, Callable, Literal, Optional, Union
+from django.http.request import HttpRequest
 
 import requests
 import firebase_admin
@@ -168,6 +169,37 @@ def check_logged_in(request: http.HttpRequest) -> Union[dict, bool]:
         return val
     except auth.InvalidSessionCookieError:
         return False
+
+
+def delete_session_cookie(request: http.HttpRequest) -> None:
+    """
+    Clears the session cookie. Meant to be used on sign out.
+
+    Arguments:
+        request: Request
+    """
+    firebase_session_cookie = request.session.get("firebase-session-cookie")
+    session_cookie_string = firebase_session_cookie.get("session_cookie")
+    try:
+        decoded_claims = auth.verify_session_cookie(
+            session_cookie_string, check_revoked=True
+        )
+        auth.revoke_refresh_tokens(decoded_claims["sub"])
+    except auth.InvalidSessionCookieError:
+        raise AuthenticationError("Tried to revoke an invalid session cookie")
+
+
+def logout(request: HttpRequest) -> HttpRequest:
+    """
+    Deletes a user's session cookie and returns the request.
+
+    Arguments:
+        request
+    Returns:
+        A modified Request object; use this request object while redirecting to a new page.
+    """
+    delete_session_cookie(request)
+    return request
 
 
 class User:
