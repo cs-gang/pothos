@@ -269,7 +269,47 @@ class User:
         """
         Retrieve the user's transactions from the database.
         """
-        return models.Transaction.objects.filter(id=self.id)
+        return models.User.transaction_set.all()  # type: ignore
+
+    def create_transaction(
+        self, transaction_type: str, amount: float, name: str, notes: Optional[str] = ""
+    ) -> models.Transaction:
+        """
+        Create and save a new transaction for the user on the database.
+
+        Arguments:
+            transaction_type -> The type of transaction. Must be either "income" or "expenditure".
+            amount
+            name
+            notes -> Any optional notes for the transaction.
+        """
+        tr = models.Transaction(
+            user=self.id,
+            transaction_type=transaction_type,
+            amount=amount,
+            transaction_time=datetime.utcnow(),
+            name=name,
+            notes=notes,
+        )
+        tr.save()
+        return tr
+
+    def update_transaction(
+        self, transaction_id: int, **fields: Any
+    ) -> models.Transaction:
+        """
+        Updates the transaction with the specified ID with the given fields.
+        """
+        tr = models.Transaction(id=transaction_id, **fields)
+        tr.save()
+        return tr
+
+    def delete_transaction(self, transaction_id: int) -> None:
+        """
+        Deletes a transaction with the specified ID.
+        """
+        tr = models.User.transaction_set.get(pk=transaction_id)  # type: ignore
+        tr.delete()
 
 
 class AuthenticationError(Exception):
