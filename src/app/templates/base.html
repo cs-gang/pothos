@@ -5,8 +5,10 @@
     <title>{% block title %} Pothos - Budget better {% endblock %}</title>
 </head>
 <body>
+
     <nav class="navbar is-fixed-top is-warning" role="navigation" aria-label="main navigation">
-    <!--TODO: make navbar look good-->
+    <!--TODO: make navbar look good -->
+    <!--TODO: link the a tags -->
         <div class="navbar-brand">
             <a href="" class="navbar-item">
                 Pothos
@@ -32,8 +34,15 @@
         </div>
     </nav>
 
+    {% block header %}
+    {% endblock %}
+
+    {% block mainbody %}
+    {% endblock %}
+
     <footer class="footer has-background-success has-text-centered"> </footer>
-    <!--TODO: Add footer text-->
+    <!--TODO: Add footer text -->
+    <!--TODO: Make footer look better -->
 
 
 
