@@ -10,128 +10,128 @@
 
 {% block mainbody %}
 
-<div class="tabs is-fullwidth">
+<div class="tabs is-fullwidth is-toggle">
     <ul>
-        <li>
+        <li class="is-active">
             <a>
-                <span class="icon"><i class="fas fa-angle-left" aria-hidden="true"></i></span>
                 <span>Budget</span>
             </a>
         </li>
         <li>
             <a>
-                <span class="icon"><i class="fas fa-angle-up" aria-hidden="true"></i></span>
                 <span>Analysis</span>
             </a>
         </li>
     </ul>
 </div>
+<div id="Budget">
+    <div class="box has-background-warning mx-3 my-4">
+        <div class="columns">
+            <p class="column is-size-5">Total Income: </p>
+            <p class="column is-size-5">Total Spending: </p>
+            <p class="column is-size-5">Remaining Amount: </p>
+        </div>
+    </div>
 
-<div class="box has-background-warning mx-3 my-4">
-    <div class="columns">
-        <p class="column is-size-5">Total Income: </p>
-        <p class="column is-size-5">Total Spending: </p>
-        <p class="column is-size-5">Remaining Amount: </p>
+    <div class="box has-background-warning mx-3 my-4">
+        <div class="columns">
+            <div class="column px-6">
+                <div class="block has-background-primary py-2 px-4">
+                    <span class="is-size-5">Salary</span>
+                    <div class="is-pulled-right">
+                        <button class="icon is-small">
+                            <i class="fas"></i>
+                        </button>
+                        <button class="delete is-medium"></button>
+                    </div>
+                </div>
+
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous">Previous</a>
+                    <a class="pagination-next">Next page</a>
+                    <ul class="pagination-list">
+                        <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="column px-6">
+                <div class="block has-background-danger py-2 px-4">
+                    <span class="is-size-5">Spending</span>
+                    <div class="is-pulled-right">
+                        <span class="tag is-success">Rent</span>
+                        <button class="icon is-small">
+                            <i class="fas"></i>
+                        </button>
+                        <button class="delete is-medium"></button>
+                    </div>
+                </div>
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous">Previous</a>
+                    <a class="pagination-next">Next page</a>
+                    <ul class="pagination-list">
+                        <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="button is-primary is-rounded is-pulled-right" id="ModalButton" data-target="modal"> &plus; </div>
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <form class="box has-background-warning columns">
+                    <div class="column">
+                        <div class="field">
+                            <label for="budget-title" class="label">Title</label>
+                            <div class="control">
+                                <input type="text" id="budget-title" placeholder="Enter the name/title: " class="input">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="budget-amount" class="label">Amount</label>
+                            <div class="control">
+                                <input type="text" id="budget-amount" placeholder="Enter the amount: " class="input">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="budget-date" class="label">Date</label>
+                            <div class="control">
+                                <input type="date" id="budget-date">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label for="spending-type" class="label">Type</label>
+                            <div class="control select">
+                                <select name="spending-type" id="spending-type">
+                                    <option value="Rent">Rent</option>
+                                    <option value="Food/Groceries">Food/Groceries</option>
+                                    <option value="Material Goods">Material Goods</option>
+                                    <option value="Investment">Investment</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="budget-notes" class="label">Notes</label>
+                            <div class="control">
+                                <textarea name="budget-notes" id="budget-notes" cols="30" rows="3"
+                                    class="textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-close is-large"></div>
+        </div>
     </div>
 </div>
-
-<div class="box has-background-warning mx-3 my-4">
-    <div class="columns">
-        <div class="column px-6">
-            <div class="block has-background-primary py-2 px-4">
-                <span class="is-size-5">Salary</span>
-                <div class="is-pulled-right">
-                    <button class="icon is-small">
-                        <i class="fas"></i>
-                    </button>
-                    <button class="delete is-medium"></button>
-                </div>
-            </div>
-
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous">Previous</a>
-                <a class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="column px-6">
-            <div class="block has-background-danger py-2 px-4">
-                <span class="is-size-5">Spending</span>
-                <div class="is-pulled-right">
-                    <span class="tag is-success">Rent</span>
-                    <button class="icon is-small">
-                        <i class="fas"></i>
-                    </button>
-                    <button class="delete is-medium"></button>
-                </div>
-            </div>
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                <a class="pagination-previous">Previous</a>
-                <a class="pagination-next">Next page</a>
-                <ul class="pagination-list">
-                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <div class="button is-primary is-rounded is-pulled-right" id="ModalButton" data-target="modal"> &plus; </div>
-    <div class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <form class="box has-background-warning columns">
-                <div class="column">
-                    <div class="field">
-                        <label for="budget-title" class="label">Title</label>
-                        <div class="control">
-                            <input type="text" id="budget-title" placeholder="Enter the name/title: " class="input">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="budget-amount" class="label">Amount</label>
-                        <div class="control">
-                            <input type="text" id="budget-amount" placeholder="Enter the amount: " class="input">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="budget-date" class="label">Date</label>
-                        <div class="control">
-                            <input type="date" id="budget-date">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-link">Add</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="field">
-                        <label for="spending-type" class="label">Type</label>
-                        <div class="control select">
-                            <select name="spending-type" id="spending-type">
-                                <option value="Rent">Rent</option>
-                                <option value="Food/Groceries">Food/Groceries</option>
-                                <option value="Material Goods">Material Goods</option>
-                                <option value="Investment">Investment</option>
-                                <option value="Entertainment">Entertainment</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="budget-notes" class="label">Notes</label>
-                        <div class="control">
-                            <textarea name="budget-notes" id="budget-notes" cols="30" rows="3"
-                                class="textarea"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-close is-large"></div>
-    </div>
-</div>
+<div id="Analysis" hidden></div>
 
 {% endblock %}
 
@@ -139,6 +139,35 @@
 
 <script>
 
+    //tabs handling
+    let tabs = document.querySelector(".tabs").children[0].children;
+    let budgetTab = document.getElementById("Budget");
+    let analysisTab = document.getElementById("Analysis");
+
+    tabs[0].addEventListener("click", changetabs("budget"));
+    tabs[1].addEventListener("click", changetabs("analysis"));
+
+    function changetabs(tabToChangeTo) {
+        if (tabToChangeTo == "budget") {
+            return () => {
+                tabs[0].classList.add("is-active");
+                tabs[1].classList.remove("is-active");
+                budgetTab.hidden = false;
+                analysisTab.hidden = true;
+            }
+        }
+        else {
+            return () => {
+                tabs[1].classList.add("is-active");
+                tabs[0].classList.remove("is-active");
+                analysisTab.hidden = false;
+                budgetTab.hidden = true;
+
+            }
+        }
+    }
+
+    //Add button modal handling
     let loginModalButton = document.getElementById("ModalButton");
     let modalBG = document.querySelector(".modal-background")
     let modalExit = document.querySelector(".modal-close")
