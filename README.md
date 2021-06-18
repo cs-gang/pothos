@@ -6,6 +6,8 @@ Budget better.
 
 [General npm setup](https://gist.github.com/Windsmith/e98f7fb31590f8da041342fd40df0f86#setting-up-npm-but-not-for-the-first-time)
 
+[Working with Bulma and nodesass](https://gist.github.com/Windsmith/96b3b0c1eea0bf26c2824b07fc15da89)
+
 After following the above steps, running
 > poetry run task runserver
 
