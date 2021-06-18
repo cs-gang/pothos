@@ -7,6 +7,7 @@ Budget better.
 
 After following the above steps, running
 > poetry run task runserver
+
 from the root of the repository should run the Django development server (used for testing).
 
 TODO: add project exhibition gif here
