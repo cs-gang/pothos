@@ -8,7 +8,7 @@ class User(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     username = models.CharField(max_length=30, null=False)
-    email = models.CharField(unique=True)
+    email = models.TextField(unique=True)
 
 
 class Transaction(models.Model):
@@ -25,8 +25,8 @@ class Transaction(models.Model):
         EXPENDITURE = "expenditure"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    transaction_type = models.CharField(choices=TransactionType.choices)
+    transaction_type = models.CharField(max_length=11, choices=TransactionType.choices)
     amount = models.FloatField()
     transaction_time = models.DateTimeField()
-    name = models.CharField()
+    name = models.CharField(max_length=30)
     notes = models.TextField(null=True)
