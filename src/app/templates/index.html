@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block signin %}
-<button class="button is-small is-danger is-size-6 my-3 mx-3" data-target="modal">Sign In</button>
+<button class="button is-small is-danger is-size-6 my-3 mx-3" data-target="modal" id="ModalButton">Sign In</button>
 
-<div class="modal is-active">
+<div class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
         <div class="box has-background-warning">
@@ -82,6 +82,32 @@
 {% block script %}
 
 <script>
+    let loginModalButton = document.getElementById("ModalButton");
+    let modalBG = document.querySelector(".modal-background")
+    let modalExit = document.querySelector(".modal-close")
+
+    loginModalButton.addEventListener(
+        "click",
+        () => { document.querySelector(".modal").classList.add("is-active"); }
+    )
+
+    modalBG.addEventListener(
+        "click",
+        () => {
+            changeform(signupToLoginButton.id)();
+            document.querySelector(".modal").classList.remove("is-active");
+        }
+    )
+
+    modalExit.addEventListener(
+        "click",
+        () => {
+            changeform(signupToLoginButton.id)()
+            document.querySelector(".modal").classList.remove("is-active");
+        }
+    )
+
+
     let loginToSignupButton = document.getElementById("LoginToSignup");
     let signupToLoginButton = document.getElementById("SignupToLogin");
 
