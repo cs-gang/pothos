@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block signin %}
+<button class="button is-small is-danger is-size-6 my-3 mx-3" data-target="modal">Sign In</button>
+
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box has-background-warning">
+            <div class="columns">
+                <div class="column">
+                    <form action="" aria-disabled="true">
+                        <div class="field">
+                            <label for="login-email" class="label">Email</label>
+                            <div class="control">
+                                <input type="text" id="login-email" placeholder="Enter your email" class="input">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="login-password" class="label">Password</label>
+                            <div class="control">
+                                <input type="text" id="login-password" placeholder="Enter your password" class="input">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link">Submit</button>
+                            </div>
+                        </div>
+                        <div class="is-size-6">Don't have an account yet? <a role="button" href="">Sign up!</a></div>
+                    </form>
+                </div>
+                <div class="column"></div>
+            </div>
+
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+{% endblock %}
