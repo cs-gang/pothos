@@ -281,7 +281,10 @@ class User:
             transaction_type__exact="income"
         )
         check = lambda tr: tr.transaction_time.month
-        return [list(g) for _, g in itertools.groupby(transactions, check)]
+        return [
+            sorted(list(g), key=lambda tr: tr.transaction_date)
+            for _, g in itertools.groupby(transactions, check)
+        ]
 
     def get_total_income(self) -> float:
         """
@@ -289,7 +292,7 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_time__month=current_month
+            transaction_date__month=current_month
         ).aggregate(Sum("amount"))["amount__sum"]
 
     def get_expenditure_transactions(self) -> List[List[models.Transaction]]:
@@ -297,8 +300,11 @@ class User:
         Retrieve the user's expenditure transactions grouped by month from the database.
         """
         transactions = self._db_user.transaction_set.filter(transaction_type__exact="expenditure")  # type: ignore
-        check = lambda tr: tr.transaction_time.month
-        return [list(g) for _, g in itertools.groupby(transactions, check)]
+        check = lambda tr: tr.transaction_date.month
+        return [
+            sorted(list(g), key=lambda tr: tr.transaction_date)
+            for _, g in itertools.groupby(transactions, check)
+        ]
 
     def get_total_expenditure(self) -> float:
         """
@@ -306,7 +312,7 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_time__month=current_month
+            transaction_date__month=current_month
         ).aggregate(Sum("amount"))["amount__sum"]
 
     def create_transaction(
