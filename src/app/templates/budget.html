@@ -106,9 +106,18 @@
                     </div>
                     <div class="column">
                         <div class="field">
-                            <label for="spending-type" class="label">Type</label>
+                            <label for="budget-type" class="label">Type</label>
                             <div class="control select">
-                                <select name="spending-type" id="spending-type">
+                                <select name="budget-type" id="budget-type" onchange="displayTypeOfSpending()">
+                                    <option value="Income">Income</option>
+                                    <option value="Spending">Spending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="spending-type" class="label">Type of Spending</label>
+                            <div class="control select">
+                                <select name="spending-type" id="spending-type" disabled>
                                     <option value="Rent">Rent</option>
                                     <option value="Food/Groceries">Food/Groceries</option>
                                     <option value="Material Goods">Material Goods</option>
@@ -186,6 +195,18 @@
         "click",
         () => { document.querySelector(".modal").classList.remove("is-active"); }
     )
+
+    //Type of spending handling
+    let budgetType = document.getElementById("budget-type");
+    let typeOfSpending = document.getElementById("spending-type");
+
+    function displayTypeOfSpending() {
+        if (budgetType.value == "Income") {
+            typeOfSpending.disabled = true;
+        } else {
+            typeOfSpending.disabled = false;
+        }
+    }
 
 </script>
 {% endblock %}
