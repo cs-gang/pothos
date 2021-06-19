@@ -271,6 +271,20 @@ class User:
         """
         return models.User.transaction_set.all()  # type: ignore
 
+    def get_income_transactions(self) -> QuerySet:
+        """
+        Retrieves the user's income transactions from the database.
+        """
+        return models.User.transaction_set.filter(  # type:  ignore
+            transaction_type__exact="income"
+        )
+
+    def get_expenditure_transactions(self) -> QuerySet:
+        """
+        Retrieve the user's expenditure transactions from the database.
+        """
+        return models.User.transaction_set.filter(transaction_type__exact="expenditure")  # type: ignore
+
     def create_transaction(
         self, transaction_type: str, amount: float, name: str, notes: Optional[str] = ""
     ) -> models.Transaction:
@@ -337,7 +351,7 @@ def authorized() -> Callable:
         ) -> http.HttpResponse:
             """
             Decorator that checks if a user is signed in.
-            The decorator will inject two arguments:
+            The decorator will inject an argument:
                 user: User -> The User object for the signed in user.
             """
             from_firebase = check_logged_in(request)
