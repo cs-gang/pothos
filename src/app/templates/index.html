@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block signin %}
-<button class="button is-small is-danger is-size-6 my-3 mx-3" data-target="modal" id="ModalButton">Sign In</button>
+<button class="button is-small is-danger is-size-6 my-3" data-target="modal" id="ModalButtonLogin">Login</button>
+<button class="button is-small is-danger is-size-6 my-3 mx-3" data-target="modal" id="ModalButtonSignup">Sign
+    up</button>
 
 <div class="modal">
     <div class="modal-background"></div>
@@ -10,6 +12,7 @@
             <div class="columns">
                 <div class="column">
                     <form action="/user/login" method="POST" id="LoginForm">
+                        {% csrf_token %}
                         <div class="field">
                             <label for="login-email" class="label">Email</label>
                             <div class="control">
@@ -28,10 +31,11 @@
                             </div>
                         </div>
                         <div class="is-size-6">Don't have an account yet?
-                            <a href="#" id="LoginToSignup">Signup!</a>
+                            <a href="#" id="LoginToSignup" class="has-text-success">Signup!</a>
                         </div>
                     </form>
                     <form action="/user/signup" method="POST" id="SignupForm" hidden>
+                        {% csrf_token %}
                         <div class="field">
                             <label for="signup-email" class="label">Email</label>
                             <div class="control">
@@ -67,7 +71,8 @@
                                 <button class="button is-link">Submit</button>
                             </div>
                         </div>
-                        <div>Already have an account? <a href="#" role="button" id="SignupToLogin">Sign in!</a>
+                        <div>Already have an account? <a href="#" role="button" id="SignupToLogin"
+                                class="has-text-success">Sign in!</a>
                         </div>
                     </form>
                 </div>
@@ -82,13 +87,24 @@
 {% block script %}
 
 <script>
-    let loginModalButton = document.getElementById("ModalButton");
+    let loginModalButton = document.getElementById("ModalButtonLogin");
+    let signupModalButton = document.getElementById("ModalButtonSignup");
     let modalBG = document.querySelector(".modal-background")
     let modalExit = document.querySelector(".modal-close")
 
     loginModalButton.addEventListener(
         "click",
         () => { document.querySelector(".modal").classList.add("is-active"); }
+    )
+
+    signupModalButton.addEventListener(
+        "click",
+        () => {
+            loginform.hidden = true;
+            signupform.hidden = false;
+            document.querySelector(".modal").classList.add("is-active");
+
+        }
     )
 
     modalBG.addEventListener(
@@ -131,6 +147,8 @@
             }
         }
     }
+
+
 </script>
 
 {% endblock %}
