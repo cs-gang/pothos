@@ -1,0 +1,54 @@
+<html class="has-navbar-fixed-top has-background-warning" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <title>{% block title %} Pothos - Budget better {% endblock %}</title>
+</head>
+
+<body>
+
+    <nav class="navbar is-fixed-top is-warning" role="navigation" aria-label="main navigation">
+        <!--TODO: make navbar look good -->
+        <!--TODO: link the a tags -->
+        <div class="navbar-brand">
+            <a href="" class="navbar-item">
+                Pothos
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                {% block navbuttons %}
+                <a class="navbar-item">Features</a>
+                <a class="navbar-item">Contact</a>
+                {% endblock %}
+            </div>
+            <div class="navbar-end">
+                {% block signin %}
+                <a role="button" class="navbar-item">Sign in</a>
+                {% endblock %}
+            </div>
+        </div>
+    </nav>
+
+    {% block header %}
+    {% endblock %}
+
+    {% block mainbody %}
+    {% endblock %}
+
+    <footer class="footer has-background-success has-text-centered"> </footer>
+    <!--TODO: Add footer text -->
+    <!--TODO: Make footer look better -->
+
+    {% block script %}
+    {% endblock %}
+
+</body>
+
+</html>
