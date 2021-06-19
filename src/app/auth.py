@@ -334,7 +334,7 @@ class User:
             notes -> Any optional notes for the transaction.
         """
         tr = models.Transaction(
-            user=self.id,
+            user=self._db_user,
             transaction_type=transaction_type,
             amount=amount,
             transaction_date=transaction_date,
