@@ -80,24 +80,26 @@
             <div class="modal-background"></div>
             <div class="modal-content is-clipped">
                 <form class="box has-background-warning columns" method="POST" action="">
+                    {% csrf_token %}
                     <div class="column">
                         <div class="field">
-                            <label for="budget-title" class="label">Title</label>
+                            <label for="title" class="label">Title</label>
                             <div class="control">
-                                <input maxlength="35" type="text" id="budget-title" placeholder="Enter the name/title: "
+                                <input maxlength="35" type="text" id="title" name="title"
+                                    placeholder="Enter the name/title: " class="input">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="amount" class="label">Amount</label>
+                            <div class="control">
+                                <input type="number" id="amount" name="amount" placeholder="Enter the amount: "
                                     class="input">
                             </div>
                         </div>
                         <div class="field">
-                            <label for="budget-amount" class="label">Amount</label>
+                            <label for="date" class="label">Date</label>
                             <div class="control">
-                                <input type="number" id="budget-amount" placeholder="Enter the amount: " class="input">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="budget-date" class="label">Date</label>
-                            <div class="control">
-                                <input type="date" id="budget-date">
+                                <input type="date" id="date" name="date">
                             </div>
                         </div>
                         <div class="field">
@@ -108,18 +110,18 @@
                     </div>
                     <div class="column">
                         <div class="field">
-                            <label for="budget-type" class="label">Type</label>
+                            <label for="type" class="label">Type</label>
                             <div class="control select">
-                                <select name="budget-type" id="budget-type" onchange="displayTypeOfSpending()">
+                                <select name="type" id="type" onchange="displayTypeOfSpending()">
                                     <option value="Income">Income</option>
                                     <option value="Spending">Spending</option>
                                 </select>
                             </div>
                         </div>
                         <div class="field">
-                            <label for="spending-type" class="label">Type of Spending</label>
+                            <label for="spending_type" class="label">Type of Spending</label>
                             <div class="control select">
-                                <select name="spending-type" id="spending-type" disabled>
+                                <select name="spending_type" id="spending_type" disabled>
                                     <option value="Rent">Rent</option>
                                     <option value="Food/Groceries">Food/Groceries</option>
                                     <option value="Material Goods">Material Goods</option>
@@ -129,9 +131,9 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label for="budget-notes" class="label">Notes</label>
+                            <label for="notes" class="label">Notes</label>
                             <div class="control">
-                                <textarea maxlength="300" name="budget-notes" id="budget-notes" cols="30" rows="3"
+                                <textarea maxlength="300" name="notes" id="notes" cols="30" rows="3"
                                     class="textarea"></textarea>
                             </div>
                         </div>
@@ -200,8 +202,8 @@
     )
 
     //Type of spending handling
-    let budgetType = document.getElementById("budget-type");
-    let typeOfSpending = document.getElementById("spending-type");
+    let budgetType = document.getElementById("type");
+    let typeOfSpending = document.getElementById("spending_type");
 
     function displayTypeOfSpending() {
         if (budgetType.value == "Income") {
