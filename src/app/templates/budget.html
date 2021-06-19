@@ -49,10 +49,10 @@
                         <span style="opacity: 60%;"> {{ income.amount }} {{ currency }} </span>
                     </span>
                     <div class="is-pulled-right mt-1">
-                        <form action="/transaction/delete">
+                        <form method="POST" action="/transaction/delete">
                             {% csrf_token %}
-                            <input type="text" value="{{ income.id }}" style=display:none>
-                            <button class="delete is-medium" onclick="deleteTransaction(this)"></button>
+                            <input name="id" type="text" value="{{ income.id }}" style=display:none>
+                            <button class="delete is-medium"></button>
                         </form>
                     </div>
                 </div>
@@ -81,9 +81,9 @@
                         <span style="opacity: 60%;"> {{ expenditure.amount }} {{ currency }} </span> </span>
                     <span class=" tag is-warning has-text-success ml-2 is-size-6">{{ expenditure.tags }}</span>
                     <div class="is-pulled-right px-2">
-                        <form action="/transaction/delete">
+                        <form method="POST" action="/transaction/delete">
                             {% csrf_token %}
-                            <input type="text" hidden value="{{ expenditure.id }}" style=display:none>
+                            <input name="id" type="text" hidden value="{{ expenditure.id }}" style=display:none>
                             <button class="delete is-medium mt-1"></button>
                         </form>
                     </div>

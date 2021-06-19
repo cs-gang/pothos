@@ -360,7 +360,7 @@ class User:
         """
         Deletes a transaction with the specified ID.
         """
-        tr = models.User.transaction_set.get(pk=transaction_id)  # type: ignore
+        tr = self._db_user.transaction_set.get(pk=transaction_id)  # type: ignore
         tr.delete()
 
 
