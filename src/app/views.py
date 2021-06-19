@@ -113,7 +113,7 @@ def delete_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpR
 
 @require_GET
 @auth.authenticated()
-def logout(request: http.HttpRequest, _: auth.User) -> http.HttpResponse:
+def logout(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     """
     Route to log a user out and redirect them to the main page.
     """
