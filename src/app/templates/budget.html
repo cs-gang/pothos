@@ -5,7 +5,7 @@
 {% block navbuttons %} {% endblock %}
 
 {% block signin %}
-<a href="/users/logout" class="navbar-item">Sign out</a>
+<a href="/users/logout" class="navbar-item has-background-warning has-text-success is-size-6 my-3 mx-4">Sign out</a>
 {% endblock %}
 
 {% block mainbody %}
@@ -25,7 +25,7 @@
     </ul>
 </div>
 -->
-<div id="Budget" class="my-6">
+<div id="Budget" class="my-6 mx-6">
     <div class="box has-background-warning mx-3 my-4">
         <div class="columns">
             <p class="column is-size-4">Total Income: </p>
@@ -35,7 +35,7 @@
     </div>
 
     <div class="box has-background-warning mx-3 my-4">
-        <div class="is-size-3 is-italic has-text-centered mb-5">Income and Spendings</div>
+        <div class="is-size-3 has-text-centered mb-6">Income and Spendings</div>
         <div class="columns">
             <div class="column px-6">
                 <div class="block has-background-primary py-2 px-5">
@@ -45,9 +45,9 @@
                     </div>
                 </div>
 
-                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                    <a class="pagination-previous">Previous</a>
-                    <a class="pagination-next">Next page</a>
+                <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous has-background-success has-text-warning">Previous</a>
+                    <a class="pagination-next has-background-success has-text-warning">Next page</a>
                     <ul class="pagination-list">
                         <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     </ul>
@@ -61,9 +61,9 @@
                         <button class="delete is-medium"></button>
                     </div>
                 </div>
-                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                    <a class="pagination-previous">Previous</a>
-                    <a class="pagination-next">Next page</a>
+                <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous has-background-success has-text-warning">Previous</a>
+                    <a class="pagination-next has-background-success has-text-warning">Next page</a>
                     <ul class="pagination-list">
                         <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     </ul>
@@ -73,8 +73,8 @@
         <div class="button is-primary is-rounded is-pulled-right" id="ModalButton" data-target="modal"> &plus; </div>
         <div class="modal">
             <div class="modal-background"></div>
-            <div class="modal-content">
-                <form class="box has-background-warning columns">
+            <div class="modal-content is-clipped">
+                <form class="box has-background-warning columns" method="POST" action="">
                     <div class="column">
                         <div class="field">
                             <label for="budget-title" class="label">Title</label>
