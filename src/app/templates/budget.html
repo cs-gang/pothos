@@ -36,8 +36,9 @@
 
     <div class="box has-background-warning mx-3 my-4">
         <div class="is-size-3 has-text-centered mb-6">Income and Spendings</div>
+
         <div class="columns">
-            <div class="column px-6">
+            <div id="incomeHolder" class="column px-6">
                 <div class="box has-background-primary py-2 px-5">
                     <span class="is-size-5">Salary</span>
                     <div class="is-pulled-right mt-1">
@@ -45,7 +46,8 @@
                     </div>
                 </div>
 
-                <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
+                <nav id="incomePagination" class="pagination is-centered mt-6" role="navigation"
+                    aria-label="pagination">
                     <a class="pagination-previous has-background-success has-text-warning">Previous</a>
                     <a class="pagination-next has-background-success has-text-warning">Next page</a>
                     <ul class="pagination-list">
@@ -53,7 +55,8 @@
                     </ul>
                 </nav>
             </div>
-            <div class="column px-6">
+
+            <div id="spendingHolder" class="column px-6">
                 <div class="box has-background-danger py-2 px-4">
                     <span class="is-size-5">Spending</span>
                     <div class="is-pulled-right px-2">
@@ -61,7 +64,9 @@
                         <button class="delete is-medium mt-1"></button>
                     </div>
                 </div>
-                <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
+
+                <nav id="spendingPagination" class="pagination is-centered mt-6" role="navigation"
+                    aria-label="pagination">
                     <a class="pagination-previous has-background-success has-text-warning">Previous</a>
                     <a class="pagination-next has-background-success has-text-warning">Next page</a>
                     <ul class="pagination-list">
@@ -210,8 +215,19 @@
     function deleteTransaction(button) {
         let parent = button.parentElement.parentElement;
         parent.remove()
+    }
 
+    //Manage Pagination
+    let incomePagination = document.getElementById("incomePagination");
+    let spendingPagination = document.getElementById("spendingPagination");
+    let incomeHolder = document.getElementById("incomeHolder");
+    let spendingHolder = document.getElementById("spendingHolder");
 
+    if (incomeHolder.childElementCount <= 2) {
+        incomePagination.style.display = "none";
+    }
+    if (spendingHolder.childElementCount <= 2) {
+        spendingPagination.style.display = "none";
     }
 
 </script>
