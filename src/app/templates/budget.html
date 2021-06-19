@@ -79,13 +79,14 @@
                         <div class="field">
                             <label for="budget-title" class="label">Title</label>
                             <div class="control">
-                                <input type="text" id="budget-title" placeholder="Enter the name/title: " class="input">
+                                <input maxlength="35" type="text" id="budget-title" placeholder="Enter the name/title: "
+                                    class="input">
                             </div>
                         </div>
                         <div class="field">
                             <label for="budget-amount" class="label">Amount</label>
                             <div class="control">
-                                <input type="text" id="budget-amount" placeholder="Enter the amount: " class="input">
+                                <input type="number" id="budget-amount" placeholder="Enter the amount: " class="input">
                             </div>
                         </div>
                         <div class="field">
@@ -125,7 +126,7 @@
                         <div class="field">
                             <label for="budget-notes" class="label">Notes</label>
                             <div class="control">
-                                <textarea name="budget-notes" id="budget-notes" cols="30" rows="3"
+                                <textarea maxlength="300" name="budget-notes" id="budget-notes" cols="30" rows="3"
                                     class="textarea"></textarea>
                             </div>
                         </div>
