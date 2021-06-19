@@ -52,7 +52,7 @@
                         <form action="/transaction/delete">
                             {% csrf_token %}
                             <input type="text" value="{{ income.id }}" style=display:none>
-                            <button class="delete is-medium" onclick="deleteTransaction(this)"></button>
+                            <button class="delete is-medium"></button>
                         </form>
                     </div>
                 </div>
