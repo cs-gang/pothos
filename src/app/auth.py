@@ -331,7 +331,7 @@ class User:
             user=self.id,
             transaction_type=transaction_type,
             amount=amount,
-            transaction_time=transaction_date,
+            transaction_date=transaction_date,
             name=name,
             notes=notes,
             tags=spending_type,

@@ -13,10 +13,14 @@ class SignupForm(forms.Form):
     currency = forms.CharField(max_length=3)
 
 
-class NewTransactionForm(forms.Form):
+class TransactionForm(forms.Form):
     title = forms.CharField(max_length=35)
     amount = forms.FloatField()
     type = forms.CharField(max_length=11)
     date = forms.DateField()
     spending_type = forms.CharField(max_length=14, required=False)
     notes = forms.CharField(max_length=300, required=False)
+
+
+class UpdateTransactionForm(TransactionForm):
+    id = forms.CharField(max_length=100)

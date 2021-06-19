@@ -81,16 +81,16 @@ def create_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpR
     """
     Creates a new transaction for the user.
     """
-    form = forms.NewTransactionForm(request.POST)
+    form = forms.TransactionForm(request.POST)
     print(request.POST)  # TODO: remove debug prints
 
     if form.is_valid():
         user.create_transaction(
-            transaction_type=form.type,
-            amount=form.amount,
-            name=form.title,
-            transaction_date=form.date,
-            spending_type=form.spending_type,
+            transaction_type=form.cleaned_data["type"],
+            amount=form.cleaned_data["amount"],
+            name=form.cleaned_data["title"],
+            transaction_date=form.cleaned_data["date"],
+            spending_type=form.cleaned_data["spending_type"],
         )
         return redirect("dashboard")
     else:
