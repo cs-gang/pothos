@@ -9,6 +9,7 @@ class User(models.Model):
     id = models.TextField(primary_key=True)
     username = models.CharField(max_length=30, null=False)
     email = models.TextField(unique=True)
+    currency = models.CharField(max_length=3, null=False)
 
     def __str__(self) -> str:
         return f"<Pothos User {self.id} {self.username}>"

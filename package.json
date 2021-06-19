@@ -4,7 +4,7 @@
   "description": "Budget better.",
   "main": "index.js",
   "scripts": {
-    "css-build": "node-sass --omit-source-map-url ./heatmaps/static/css/$npm_config_in ./heatmaps/static/css/$npm_config_out",
+    "css-build": "node-sass --omit-source-map-url ./src/app/static/css/$npm_config_in ./src/app/static/css/$npm_config_out",
     "css": "npm run css-build -- --watch"
   },
   "repository": {
