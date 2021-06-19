@@ -41,12 +41,17 @@
         <div class="columns">
 
             <div id="incomeHolder" class="column px-6">
+
+                {% for monthlyIncome in incomes %}
+                {% for income in monthlyIncome %}
                 <div class="box has-background-primary py-2 px-5">
-                    <span class="is-size-5">Salary</span>
+                    <span class="is-size-5">{{ income.name }}</span>
                     <div class="is-pulled-right mt-1">
                         <button class="delete is-medium" onclick="deleteTransaction(this)"></button>
                     </div>
                 </div>
+                {% endfor %}
+                {% endfor %}
 
                 <nav id="incomePagination" class="pagination is-centered mt-6" role="navigation"
                     aria-label="pagination">
@@ -59,13 +64,18 @@
             </div>
 
             <div id="spendingHolder" class="column px-6">
+
+                {% for monthlyExpenditure in expenditures %}
+                {% for expenditure in monthlyExpenditure %}
                 <div class="box has-background-danger py-2 px-4">
-                    <span class="is-size-5">Spending</span>
+                    <span class="is-size-5">{{ expenditure.name }}</span>
                     <div class="is-pulled-right px-2">
-                        <div class="tag is-warning has-text-success mr-2 is-size-6">Rent</div>
+                        <div class="tag is-warning has-text-success mr-2 is-size-6">{{ expenditure.tags }}</div>
                         <button class="delete is-medium mt-1"></button>
                     </div>
                 </div>
+                {% endfor %}
+                {% endfor %}
 
                 <nav id="spendingPagination" class="pagination is-centered mt-6" role="navigation"
                     aria-label="pagination">
@@ -116,7 +126,7 @@
                             <div class="control select">
                                 <select name="type" id="type" onchange="displayTypeOfSpending()">
                                     <option value="Income">Income</option>
-                                    <option value="Spending">Spending</option>
+                                    <option value="expenditure">Spending</option>
                                 </select>
                             </div>
                         </div>

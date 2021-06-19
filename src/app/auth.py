@@ -312,7 +312,7 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_type__exact="iexpenditure",
+            transaction_type__iexact="expenditure",
             transaction_date__month=current_month,
         ).aggregate(sum=Sum("amount"))["sum"]
 
