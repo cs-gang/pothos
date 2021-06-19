@@ -1,4 +1,4 @@
-<html class="has-navbar-fixed-top has-background-warning" lang="en">
+<html class="has-navbar-fixed-top has-background-warning is-clipped" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -8,11 +8,11 @@
 
 <body>
 
-    <nav class="navbar is-fixed-top is-warning" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top is-success" role="navigation" aria-label="main navigation">
         <!--TODO: make navbar look good -->
         <!--TODO: link the a tags -->
         <div class="navbar-brand">
-            <a href="" class="navbar-item">
+            <a href="" class="navbar-item is-size-3 is-italic">
                 Pothos
             </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
@@ -42,9 +42,12 @@
     {% block mainbody %}
     {% endblock %}
 
+    <!--
     <footer class="footer has-background-success has-text-centered"> </footer>
+    -->
     <!--TODO: Add footer text -->
     <!--TODO: Make footer look better -->
+
 
     {% block script %}
     {% endblock %}

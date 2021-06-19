@@ -5,11 +5,11 @@
 {% block navbuttons %} {% endblock %}
 
 {% block signin %}
-<a href="" class="navbar-item">Sign out</a>
+<a href="/users/logout" class="navbar-item">Sign out</a>
 {% endblock %}
 
 {% block mainbody %}
-
+<!--
 <div class="tabs is-fullwidth is-toggle">
     <ul>
         <li class="is-active">
@@ -24,24 +24,23 @@
         </li>
     </ul>
 </div>
-<div id="Budget">
+-->
+<div id="Budget" class="my-6">
     <div class="box has-background-warning mx-3 my-4">
         <div class="columns">
-            <p class="column is-size-5">Total Income: </p>
-            <p class="column is-size-5">Total Spending: </p>
-            <p class="column is-size-5">Remaining Amount: </p>
+            <p class="column is-size-4">Total Income: </p>
+            <p class="column is-size-4">Total Spending: </p>
+            <p class="column is-size-4">Remaining Amount: </p>
         </div>
     </div>
 
     <div class="box has-background-warning mx-3 my-4">
+        <div class="is-size-3 is-italic has-text-centered mb-5">Income and Spendings</div>
         <div class="columns">
             <div class="column px-6">
-                <div class="block has-background-primary py-2 px-4">
+                <div class="block has-background-primary py-2 px-5">
                     <span class="is-size-5">Salary</span>
                     <div class="is-pulled-right">
-                        <button class="icon is-small">
-                            <i class="fas"></i>
-                        </button>
                         <button class="delete is-medium"></button>
                     </div>
                 </div>
@@ -59,9 +58,6 @@
                     <span class="is-size-5">Spending</span>
                     <div class="is-pulled-right">
                         <span class="tag is-success">Rent</span>
-                        <button class="icon is-small">
-                            <i class="fas"></i>
-                        </button>
                         <button class="delete is-medium"></button>
                     </div>
                 </div>
@@ -149,6 +145,7 @@
 <script>
 
     //tabs handling
+    /*
     let tabs = document.querySelector(".tabs").children[0].children;
     let budgetTab = document.getElementById("Budget");
     let analysisTab = document.getElementById("Analysis");
@@ -174,7 +171,7 @@
 
             }
         }
-    }
+    }*/
 
     //Add button modal handling
     let loginModalButton = document.getElementById("ModalButton");
