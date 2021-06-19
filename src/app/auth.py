@@ -292,7 +292,7 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_date__month=current_month
+            transaction_type__exact="income", transaction_date__month=current_month
         ).aggregate(Sum("amount"))["amount__sum"]
 
     def get_expenditure_transactions(self) -> List[List[models.Transaction]]:
@@ -312,7 +312,7 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_date__month=current_month
+            transaction_type__exact="expenditure", transaction_date__month=current_month
         ).aggregate(Sum("amount"))["amount__sum"]
 
     def create_transaction(

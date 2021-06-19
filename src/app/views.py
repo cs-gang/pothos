@@ -71,6 +71,7 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
             "username": user.username,
             "total_income": this_month_income,
             "total_expenditure": this_month_expenditure,
+            "difference": this_month_income - this_month_expenditure,
         },
     )
 
