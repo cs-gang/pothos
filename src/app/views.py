@@ -116,7 +116,7 @@ def delete_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpR
     """
     Deletes a transaction with the given transaction ID.
     """
-    id = int(request.POST["id"][0])
+    id = int(request.POST["id"])
     user.delete_transaction(id)
     return redirect("dashboard")
 
