@@ -45,7 +45,9 @@
                 {% for monthlyIncome in incomes %}
                 {% for income in monthlyIncome %}
                 <div class="box has-background-primary py-2 px-5">
-                    <span class="is-size-5">{{ income.name }}</span>
+                    <span class="is-size-5">{{ income.name }}
+                        <span style="opacity: 60%;"> {{ income.amount }} {{ currency }} </span>
+                    </span>
                     <div class="is-pulled-right mt-1">
                         <form action="/transaction/delete">
                             {% csrf_token %}
@@ -75,8 +77,9 @@
                 {% for monthlyExpenditure in expenditures %}
                 {% for expenditure in monthlyExpenditure %}
                 <div class="box has-background-danger py-2 px-4">
-                    <span class="is-size-5">{{ expenditure.name }}</span>
-                    <span class="tag is-warning has-text-success ml-2 is-size-6">{{ expenditure.tags }}</span>
+                    <span class="is-size-5">{{ expenditure.name }}
+                        <span style="opacity: 60%;"> {{ expenditure.amount }} {{ currency }} </span> </span>
+                    <span class=" tag is-warning has-text-success ml-2 is-size-6">{{ expenditure.tags }}</span>
                     <div class="is-pulled-right px-2">
                         <form action="/transaction/delete">
                             {% csrf_token %}
