@@ -1,7 +1,7 @@
 """Functions and classes to help authenticate users with Firebase."""
 import json
 import itertools
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from functools import wraps
 from typing import Any, Callable, Literal, List, Optional, Union
 
@@ -310,7 +310,13 @@ class User:
         ).aggregate(Sum("amount"))["amount__sum"]
 
     def create_transaction(
-        self, transaction_type: str, amount: float, name: str, notes: Optional[str] = ""
+        self,
+        transaction_type: str,
+        amount: float,
+        name: str,
+        transaction_date: date,
+        spending_type: Optional[str] = "",
+        notes: Optional[str] = "",
     ) -> models.Transaction:
         """
         Create and save a new transaction for the user on the database.
@@ -325,9 +331,10 @@ class User:
             user=self.id,
             transaction_type=transaction_type,
             amount=amount,
-            transaction_time=datetime.utcnow(),
+            transaction_time=transaction_date,
             name=name,
             notes=notes,
+            tags=spending_type,
         )
         tr.save()
         return tr
