@@ -15,6 +15,7 @@ def login(request: http.HttpRequest) -> http.HttpResponse:
     Route to validate user logins.
     """
     form = forms.LoginForm(request.POST)
+    print(request.POST)
     if form.is_valid():
         email = form.cleaned_data("email")
         password = form.cleaned_data("password")
