@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
 {% block signin %}
-<button class="button is-small is-danger is-size-6 my-3" data-target="modal" id="ModalButtonLogin">Login</button>
-<button class="button is-small is-danger is-size-6 my-3 mx-3" data-target="modal" id="ModalButtonSignup">Sign
-    up</button>
+<div class="m-auto">
+    <button class="button is-small is-warning has-text-success is-size-6 my-3" data-target="modal"
+        id="ModalButtonLogin">Login</button>
+    <button class="button is-small is-warning has-text-success is-size-6 my-3 mx-3" data-target="modal"
+        id="ModalButtonSignup">Sign
+        up</button>
+</div>
 
 <div class="modal">
     <div class="modal-background"></div>
@@ -88,7 +92,7 @@
 <div class="hero is-success is-fullheight-with-navbar">
     <div class="hero-body columns">
         <div class="column">
-            <p class="title is-1">Pothos - Budget Better</p>
+            <p class="title is-1"> <i>Pothos</i> - Budget Better</p>
             <p class="subtitle is-italic">Manage your personal finances and achieve the financial independence you
                 deserve!</p>
         </div>
@@ -103,7 +107,42 @@
 {% endblock %}
 
 {% block mainbody %}
+<div class="columns mx-4 my-6 is-vcentered">
+    <div class="column is-7">
+        <figure class="image is-4by3 m-4">
+            <img class="" src="../static/svg/undraw_wallet_aym5.svg">
+            </img>
+        </figure>
+    </div>
+    <div class="column content">
+        <div class="box has-background-warning mx-4 py-6 px-6">
+            <p class="title is-2 has-text-success has-text-centered">A solution for all your financial needs!</p>
+            <p class="subtitle is-5 has-text-centered">Track your income and spendings with the help of our product!</p>
+            <ul class="is-size-5">
+                <li>It is free!</li>
+                <li>Our product is user intuitive and easy to use.</li>
+                <li>We ensure complete privacy of your details and make security our number one priority!</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
+<div class="columns mx-4 my-6">
+    <div class="column">
+        <figure class="image is-3by1">
+            <img class="" src="../static/svg/undraw_contact_us_15o2.svg">
+            </img>
+        </figure>
+    </div>
+</div>
+
+<footer class="footer has-background-success mt-6">
+    <div class="content has-text-centered has-text-warning is-size-5">
+        <p>Contact us at alphabeta@gm.com <br> +12 3456789</p>
+        <p>This project was made by cs-gang</p>
+
+    </div>
+</footer>
 {% endblock %}
 
 {% block script %}
