@@ -47,12 +47,18 @@
                 <div class="box has-background-primary py-2 px-5">
                     <span class="is-size-5">{{ income.name }}</span>
                     <div class="is-pulled-right mt-1">
-                        <button class="delete is-medium" onclick="deleteTransaction(this)"></button>
+                        <form action="/transaction/delete">
+                            {% csrf_token %}
+                            <input type="text" value="{{ income.id }}" style=display:none>
+                            <button class="delete is-medium" onclick="deleteTransaction(this)"></button>
+                        </form>
                     </div>
                 </div>
                 {% endfor %}
+                <hr>
                 {% endfor %}
 
+                <!--
                 <nav id="incomePagination" class="pagination is-centered mt-6" role="navigation"
                     aria-label="pagination">
                     <a class="pagination-previous has-background-success has-text-warning">Previous</a>
@@ -61,6 +67,7 @@
                         <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     </ul>
                 </nav>
+                -->
             </div>
 
             <div id="spendingHolder" class="column px-6">
@@ -69,14 +76,19 @@
                 {% for expenditure in monthlyExpenditure %}
                 <div class="box has-background-danger py-2 px-4">
                     <span class="is-size-5">{{ expenditure.name }}</span>
+                    <span class="tag is-warning has-text-success ml-2 is-size-6">{{ expenditure.tags }}</span>
                     <div class="is-pulled-right px-2">
-                        <div class="tag is-warning has-text-success mr-2 is-size-6">{{ expenditure.tags }}</div>
-                        <button class="delete is-medium mt-1"></button>
+                        <form action="/transaction/delete">
+                            {% csrf_token %}
+                            <input type="text" hidden value="{{ expenditure.id }}" style=display:none>
+                            <button class="delete is-medium mt-1"></button>
+                        </form>
                     </div>
                 </div>
                 {% endfor %}
+                <hr>
                 {% endfor %}
-
+                <!--
                 <nav id="spendingPagination" class="pagination is-centered mt-6" role="navigation"
                     aria-label="pagination">
                     <a class="pagination-previous has-background-success has-text-warning">Previous</a>
@@ -85,6 +97,7 @@
                         <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     </ul>
                 </nav>
+                -->
             </div>
         </div>
         <div class="button is-primary is-rounded is-pulled-right" id="ModalButton" data-target="modal"> &plus; </div>
@@ -226,22 +239,20 @@
 
     //Delete Transaction
     function deleteTransaction(button) {
-        let parent = button.parentElement.parentElement;
+        let parent = button.parentElement.parentElement.parentElement;
+        console.log(parent.id)
         parent.remove()
     }
 
     //Manage Pagination
+    /*
     let incomePagination = document.getElementById("incomePagination");
     let spendingPagination = document.getElementById("spendingPagination");
     let incomeHolder = document.getElementById("incomeHolder");
     let spendingHolder = document.getElementById("spendingHolder");
 
-    if (incomeHolder.childElementCount <= 2) {
-        incomePagination.style.display = "none";
-    }
-    if (spendingHolder.childElementCount <= 2) {
-        spendingPagination.style.display = "none";
-    }
+    incomePagination.style.display = "none";
+    pendingPagination.style.display = "none";*/
 
 </script>
 {% endblock %}
