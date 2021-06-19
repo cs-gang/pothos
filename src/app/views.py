@@ -75,9 +75,45 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     )
 
 
+@require_POST
+@auth.authenticated()
+def create_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
+    """
+    Creates a new transaction for the user.
+    """
+    form = forms.TransactionForm(request.POST)
+    print(request.POST)  # TODO: remove debug prints
+
+    if form.is_valid():
+        user.create_transaction(
+            transaction_type=form.cleaned_data["type"],
+            amount=form.cleaned_data["amount"],
+            name=form.cleaned_data["title"],
+            transaction_date=form.cleaned_data["date"],
+            spending_type=form.cleaned_data["spending_type"],
+        )
+        return redirect("dashboard")
+    else:
+        return http.HttpResponseServerError(
+            "Something went wrong, form did not validate"
+        )
+
+
+@require_POST
+@auth.authenticated()
+def delete_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
+    """
+    Deletes a transaction with the given transaction ID.
+    """
+    print(request.POST)
+    transaction_id = int(request.POST["id"][0])
+    user.delete_transaction(transaction_id)
+    return redirect("dashboard")
+
+
 @require_GET
 @auth.authenticated()
-def logout(request: http.HttpRequest, _: auth.User) -> http.HttpResponse:
+def logout(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     """
     Route to log a user out and redirect them to the main page.
     """

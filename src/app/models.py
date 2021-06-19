@@ -31,13 +31,13 @@ class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction_type = models.CharField(max_length=11, choices=TransactionType.choices)
     amount = models.FloatField()
-    transaction_time = models.DateTimeField()
+    transaction_date = models.DateField()
     name = models.CharField(max_length=30)
     notes = models.TextField(null=True)
     tags = models.CharField(null=True, max_length=14)
 
     def __str__(self) -> str:
         return (
-            f"<Transaction {self.transaction_time.upper()} by {self.user} - {self.amount} "
-            f"at {self.transaction_time}>"
+            f"<Transaction {self.transaction_date.upper()} by {self.user} - {self.amount} "
+            f"at {self.transaction_date}>"
         )
