@@ -1,15 +1,17 @@
 """Functions and classes to help authenticate users with Firebase."""
 import json
-from datetime import datetime, timedelta
+import itertools
+from datetime import datetime, timedelta, timezone
 from functools import wraps
-from typing import Any, Callable, List, Literal, Optional, Union
-from django.db.models.query import QuerySet
-from django.http.request import HttpRequest
+from typing import Any, Callable, Literal, List, Optional, Union
 
 import requests
 import firebase_admin
 from decouple import config
 from django import http
+from django.db.models import Sum
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from firebase_admin import auth, credentials, exceptions
 from firebase_admin.auth import UserRecord
 
@@ -19,7 +21,7 @@ from . import models
 API_URL = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 API_KEY = config("FIREBASE_API_KEY")
 
-cred = credentials.Certificate("firebase-credentials.json")
+cred = credentials.Certificate("./src/firebase-credentials.json")
 app = firebase_admin.initialize_app(cred)
 
 
@@ -104,7 +106,7 @@ def create_session_cookie(data: dict) -> Union[dict, Literal[False]]:
         ON SUCCESS =>
         Dictionary with 2 keys:
             session_cookie: bytes
-            expires: datetime.datetime (UTC)
+            expires: datetime.datetime
         NOTE: Don't forget to set the session_cookie on the HttpResponse!
         ON FAILURE =>
         boolean False
@@ -116,7 +118,7 @@ def create_session_cookie(data: dict) -> Union[dict, Literal[False]]:
         session_cookie = auth.create_session_cookie(
             id_token=id_token, expires_in=expires_in, app=app
         )
-        expires = datetime.utcnow() + expires_in
+        expires = datetime.now(timezone.utc) + expires_in
         return {"session_cookie": session_cookie, "expires": expires}
     except exceptions.FirebaseError:
         return False
@@ -271,6 +273,42 @@ class User:
         """
         return models.User.transaction_set.all()  # type: ignore
 
+    def get_income_transactions(self) -> List[List[models.Transaction]]:
+        """
+        Retrieves the user's income transactions grouped by monthfrom the database.
+        """
+        transactions = models.User.transaction_set.filter(
+            transaction_type__exact="income"
+        )
+        check = lambda tr: tr.transaction_time.month
+        return [list(g) for _, g in itertools.groupby(transactions, check)]
+
+    def get_total_income(self) -> float:
+        """
+        Retrieve a user's total income for the current month.
+        """
+        current_month = datetime.now().month
+        return models.User.transaction_set.filter(
+            transaction_time__month=current_month
+        ).aggregate(Sum("amount"))["amount__sum"]
+
+    def get_expenditure_transactions(self) -> List[List[models.Transaction]]:
+        """
+        Retrieve the user's expenditure transactions grouped by month from the database.
+        """
+        transactions = models.User.transaction_set.filter(transaction_type__exact="expenditure")  # type: ignore
+        check = lambda tr: tr.transaction_time.month
+        return [list(g) for _, g in itertools.groupby(transactions, check)]
+
+    def get_total_expenditure(self) -> float:
+        """
+        Retrieve a user's total expenditure for the current month.
+        """
+        current_month = datetime.now().month
+        return models.User.transaction_set.filter(
+            transaction_time__month=current_month
+        ).aggregate(Sum("amount"))["amount__sum"]
+
     def create_transaction(
         self, transaction_type: str, amount: float, name: str, notes: Optional[str] = ""
     ) -> models.Transaction:
@@ -329,7 +367,7 @@ class UnauthenticatedError(Exception):
     pass
 
 
-def authorized() -> Callable:
+def authenticated() -> Callable:
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(
@@ -337,7 +375,7 @@ def authorized() -> Callable:
         ) -> http.HttpResponse:
             """
             Decorator that checks if a user is signed in.
-            The decorator will inject two arguments:
+            The decorator will inject an argument:
                 user: User -> The User object for the signed in user.
             """
             from_firebase = check_logged_in(request)
