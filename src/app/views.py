@@ -61,6 +61,21 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     this_month_income = user.get_total_income()
     this_month_expenditure = user.get_total_expenditure()
 
+    if this_month_expenditure is None and this_month_income is None:
+        # both Nones, no preexisting transactions
+        difference = None
+    elif this_month_income is None:
+        # if income none but expenditure not none, difference is negative
+        difference = -this_month_expenditure
+    elif this_month_expenditure is None:
+        # expenditure none, so difference is positive
+        difference = this_month_income
+    else:
+        difference = this_month_income - this_month_expenditure
+
+    print("incomes", incomes)
+    print("expenditures", expenditures)
+
     return render(
         request,
         "budget.html",
@@ -71,7 +86,7 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
             "username": user.username,
             "total_income": this_month_income,
             "total_expenditure": this_month_expenditure,
-            "difference": this_month_income - this_month_expenditure,
+            "difference": difference,
         },
     )
 

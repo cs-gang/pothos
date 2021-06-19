@@ -40,6 +40,6 @@ class Transaction(models.Model):
 
     def __str__(self) -> str:
         return (
-            f"<Transaction {self.transaction_date.upper()} by {self.user} - {self.amount} "
+            f"<Transaction {self.transaction_date} by {self.user} - {self.amount} "
             f"at {self.transaction_date}>"
         )
