@@ -19,7 +19,7 @@ from . import models
 API_URL = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 API_KEY = config("FIREBASE_API_KEY")
 
-cred = credentials.Certificate("firebase-credentials.json")
+cred = credentials.Certificate("./src/firebase-credentials.json")
 app = firebase_admin.initialize_app(cred)
 
 

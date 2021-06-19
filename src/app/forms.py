@@ -10,4 +10,4 @@ class SignupForm(forms.Form):
     username = forms.CharField(label="", max_length=10)
     email = forms.EmailField(label="", max_length=20)
     password = forms.CharField(label="", max_length=20)
-    currency = forms.CharField(label="")
+    currency = forms.CharField(label="", max_length=3)

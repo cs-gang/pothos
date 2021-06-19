@@ -1,37 +1,58 @@
-from pothos.src.app.forms import SignupForm
-from django import forms
-from django.shortcuts import redirect, render
 from django import http
-from . import auth, forms
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_GET, require_POST
 
-# Create your views here.
+from . import auth, forms
 
 
 def index(request: http.HttpRequest) -> http.HttpResponse:
-    pass
+    return render(request, "index.html")
 
 
-@require_POST()
+@require_POST
 def login(request: http.HttpRequest) -> http.HttpResponse:
-    form = LoginForm(request.POST)
+    """
+    Route to validate user logins.
+    """
+    form = forms.LoginForm(request.POST)
     if form.is_valid():
         email = form.cleaned_data("email")
         password = form.cleaned_data("password")
         auth.login(request, email, password)
         return redirect("/dashboard/")
     else:
-        return render(request, "login.html", {"form": form})
+        return http.HttpResponseServerError(
+            "Something went wrong, form did not validate."
+        )
 
 
-@require_POST()
+@require_POST
 def signup(request: http.HttpRequest) -> http.HttpResponse:
-    form = SignupForm(request.POST)
+    """
+    Route to sign a new user up to Pothos.
+    """
+    form = forms.SignupForm(request.POST)
+    print(request.POST)
     if form.is_valid():
         username = form.cleaned_data("username")
         email = form.cleaned_data("email")
         password = form.cleaned_data("password")
-        user = auth.User.create(username, email, password)
+        currency = form.cleaned_data("currency")
+
+        user = auth.User.create(
+            username=username, email=email, password=password, currency=currency
+        )
         auth.login(request, email, password)
-        return redirect("/dashboard/")
+        return redirect("dashboard")
     else:
-        return render(request, "login.html", {"form": form})
+        return http.HttpResponseServerError(
+            "Something went wrong; the form did not validate."
+        )
+
+
+@require_GET
+def dashboard(request: http.HttpRequest) -> http.HttpResponse:
+    """
+    Route to render the dashboard for a user.
+    """
+    return http.HttpResponse("hi sign in worked bro")

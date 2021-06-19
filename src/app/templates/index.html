@@ -10,6 +10,7 @@
             <div class="columns">
                 <div class="column">
                     <form action="/user/login" method="POST" id="LoginForm">
+                        {% csrf_token %}
                         <div class="field">
                             <label for="login-email" class="label">Email</label>
                             <div class="control">
@@ -32,6 +33,7 @@
                         </div>
                     </form>
                     <form action="/user/signup" method="POST" id="SignupForm" hidden>
+                        {% csrf_token %}
                         <div class="field">
                             <label for="signup-email" class="label">Email</label>
                             <div class="control">
