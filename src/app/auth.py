@@ -1,15 +1,17 @@
 """Functions and classes to help authenticate users with Firebase."""
 import json
+import itertools
 from datetime import datetime, timedelta, timezone
 from functools import wraps
-from typing import Any, Callable, Literal, Optional, Union
-from django.db.models.query import QuerySet
-from django.http.request import HttpRequest
+from typing import Any, Callable, Literal, List, Optional, Union
 
 import requests
 import firebase_admin
 from decouple import config
 from django import http
+from django.db.models import Sum
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from firebase_admin import auth, credentials, exceptions
 from firebase_admin.auth import UserRecord
 
@@ -271,19 +273,41 @@ class User:
         """
         return models.User.transaction_set.all()  # type: ignore
 
-    def get_income_transactions(self) -> QuerySet:
+    def get_income_transactions(self) -> List[List[models.Transaction]]:
         """
-        Retrieves the user's income transactions from the database.
+        Retrieves the user's income transactions grouped by monthfrom the database.
         """
-        return models.User.transaction_set.filter(  # type:  ignore
+        transactions = models.User.transaction_set.filter(
             transaction_type__exact="income"
         )
+        check = lambda tr: tr.transaction_time.month
+        return [list(g) for _, g in itertools.groupby(transactions, check)]
 
-    def get_expenditure_transactions(self) -> QuerySet:
+    def get_total_income(self) -> float:
         """
-        Retrieve the user's expenditure transactions from the database.
+        Retrieve a user's total income for the current month.
         """
-        return models.User.transaction_set.filter(transaction_type__exact="expenditure")  # type: ignore
+        current_month = datetime.now().month
+        return models.User.transaction_set.filter(
+            transaction_time__month=current_month
+        ).aggregate(Sum("amount"))["amount__sum"]
+
+    def get_expenditure_transactions(self) -> List[List[models.Transaction]]:
+        """
+        Retrieve the user's expenditure transactions grouped by month from the database.
+        """
+        transactions = models.User.transaction_set.filter(transaction_type__exact="expenditure")  # type: ignore
+        check = lambda tr: tr.transaction_time.month
+        return [list(g) for _, g in itertools.groupby(transactions, check)]
+
+    def get_total_expenditure(self) -> float:
+        """
+        Retrieve a user's total expenditure for the current month.
+        """
+        current_month = datetime.now().month
+        return models.User.transaction_set.filter(
+            transaction_time__month=current_month
+        ).aggregate(Sum("amount"))["amount__sum"]
 
     def create_transaction(
         self, transaction_type: str, amount: float, name: str, notes: Optional[str] = ""

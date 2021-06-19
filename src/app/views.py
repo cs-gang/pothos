@@ -58,6 +58,9 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     incomes = user.get_income_transactions()
     expenditures = user.get_expenditure_transactions()
 
+    this_month_income = user.get_total_income()
+    this_month_expenditure = user.get_total_expenditure()
+
     return render(
         request,
         "budget.html",
@@ -66,6 +69,8 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
             "expenditures": expenditures,
             "currency": user.currency,
             "username": user.username,
+            "total_income": this_month_income,
+            "total_expenditure": this_month_expenditure,
         },
     )
 
