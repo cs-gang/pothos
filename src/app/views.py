@@ -50,8 +50,31 @@ def signup(request: http.HttpRequest) -> http.HttpResponse:
 
 
 @require_GET
-def dashboard(request: http.HttpRequest) -> http.HttpResponse:
+@auth.authenticated()
+def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     """
     Route to render the dashboard for a user.
     """
-    return http.HttpResponse("hi sign in worked bro")
+    incomes = user.get_income_transactions()
+    expenditures = user.get_expenditure_transactions()
+
+    return render(
+        request,
+        "budget.html",
+        {
+            "incomes": incomes,
+            "expenditures": expenditures,
+            "currency": user.currency,
+            "username": user.username,
+        },
+    )
+
+
+@require_GET
+@auth.authenticated()
+def logout(request: http.HttpRequest, _: auth.User) -> http.HttpResponse:
+    """
+    Route to log a user out and redirect them to the main page.
+    """
+    auth.logout(request)
+    return redirect("index")

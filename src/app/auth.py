@@ -343,7 +343,7 @@ class UnauthenticatedError(Exception):
     pass
 
 
-def authorized() -> Callable:
+def authenticated() -> Callable:
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(
