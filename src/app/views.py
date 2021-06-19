@@ -15,12 +15,11 @@ def login(request: http.HttpRequest) -> http.HttpResponse:
     Route to validate user logins.
     """
     form = forms.LoginForm(request.POST)
-    print(request.POST)
     if form.is_valid():
-        email = form.cleaned_data("email")
-        password = form.cleaned_data("password")
+        email = form.cleaned_data["email"]
+        password = form.cleaned_data["password"]
         auth.login(request, email, password)
-        return redirect("/dashboard/")
+        return redirect("dashboard")
     else:
         return http.HttpResponseServerError(
             "Something went wrong, form did not validate."
@@ -33,12 +32,11 @@ def signup(request: http.HttpRequest) -> http.HttpResponse:
     Route to sign a new user up to Pothos.
     """
     form = forms.SignupForm(request.POST)
-    print(request.POST)
     if form.is_valid():
-        username = form.cleaned_data("username")
-        email = form.cleaned_data("email")
-        password = form.cleaned_data("password")
-        currency = form.cleaned_data("currency")
+        username = form.cleaned_data["username"]
+        email = form.cleaned_data["email"]
+        password = form.cleaned_data["password"]
+        currency = form.cleaned_data["currency"]
 
         user = auth.User.create(
             username=username, email=email, password=password, currency=currency

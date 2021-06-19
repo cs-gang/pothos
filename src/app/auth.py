@@ -1,8 +1,8 @@
 """Functions and classes to help authenticate users with Firebase."""
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
-from typing import Any, Callable, List, Literal, Optional, Union
+from typing import Any, Callable, Literal, Optional, Union
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 
@@ -104,7 +104,7 @@ def create_session_cookie(data: dict) -> Union[dict, Literal[False]]:
         ON SUCCESS =>
         Dictionary with 2 keys:
             session_cookie: bytes
-            expires: datetime.datetime (UTC)
+            expires: datetime.datetime
         NOTE: Don't forget to set the session_cookie on the HttpResponse!
         ON FAILURE =>
         boolean False
@@ -116,7 +116,7 @@ def create_session_cookie(data: dict) -> Union[dict, Literal[False]]:
         session_cookie = auth.create_session_cookie(
             id_token=id_token, expires_in=expires_in, app=app
         )
-        expires = datetime.utcnow() + expires_in
+        expires = datetime.now(timezone.utc) + expires_in
         return {"session_cookie": session_cookie, "expires": expires}
     except exceptions.FirebaseError:
         return False
