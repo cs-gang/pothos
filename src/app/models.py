@@ -34,6 +34,7 @@ class Transaction(models.Model):
     transaction_time = models.DateTimeField()
     name = models.CharField(max_length=30)
     notes = models.TextField(null=True)
+    tags = models.CharField(null=True, max_length=14)
 
     def __str__(self) -> str:
         return (
