@@ -5,7 +5,7 @@
 {% block navbuttons %} {% endblock %}
 
 {% block signin %}
-<a href="/users/logout" class="navbar-item has-background-warning has-text-success is-size-6 my-3 mx-4">Sign out</a>
+<a href="/user/logout" class="navbar-item has-background-warning has-text-success is-size-6 my-3 mx-4">Log out</a>
 {% endblock %}
 
 {% block mainbody %}
@@ -38,9 +38,9 @@
         <div class="is-size-3 has-text-centered mb-6">Income and Spendings</div>
         <div class="columns">
             <div class="column px-6">
-                <div class="block has-background-primary py-2 px-5">
+                <div class="box has-background-primary py-2 px-5">
                     <span class="is-size-5">Salary</span>
-                    <div class="is-pulled-right">
+                    <div class="is-pulled-right mt-1">
                         <button class="delete is-medium"></button>
                     </div>
                 </div>
@@ -54,11 +54,11 @@
                 </nav>
             </div>
             <div class="column px-6">
-                <div class="block has-background-danger py-2 px-4">
+                <div class="box has-background-danger py-2 px-4">
                     <span class="is-size-5">Spending</span>
-                    <div class="is-pulled-right">
-                        <span class="tag is-success">Rent</span>
-                        <button class="delete is-medium"></button>
+                    <div class="is-pulled-right px-2">
+                        <div class="tag is-warning has-text-success mr-2 is-size-6">Rent</div>
+                        <button class="delete is-medium mt-1"></button>
                     </div>
                 </div>
                 <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
