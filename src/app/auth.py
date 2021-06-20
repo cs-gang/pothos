@@ -278,9 +278,9 @@ class User:
         Retrieves the user's income transactions grouped by monthfrom the database.
         """
         transactions = self._db_user.transaction_set.filter(
-            transaction_type__exact="income"
+            transaction_type__iexact="income"
         )
-        check = lambda tr: tr.transaction_time.month
+        check = lambda tr: tr.transaction_date.month
         return [
             sorted(list(g), key=lambda tr: tr.transaction_date)
             for _, g in itertools.groupby(transactions, check)
@@ -292,14 +292,14 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_date__month=current_month
-        ).aggregate(Sum("amount"))["amount__sum"]
+            transaction_type__iexact="income", transaction_date__month=current_month
+        ).aggregate(sum=Sum("amount"))["sum"]
 
     def get_expenditure_transactions(self) -> List[List[models.Transaction]]:
         """
         Retrieve the user's expenditure transactions grouped by month from the database.
         """
-        transactions = self._db_user.transaction_set.filter(transaction_type__exact="expenditure")  # type: ignore
+        transactions = self._db_user.transaction_set.filter(transaction_type__iexact="expenditure")  # type: ignore
         check = lambda tr: tr.transaction_date.month
         return [
             sorted(list(g), key=lambda tr: tr.transaction_date)
@@ -312,8 +312,9 @@ class User:
         """
         current_month = datetime.now().month
         return self._db_user.transaction_set.filter(
-            transaction_date__month=current_month
-        ).aggregate(Sum("amount"))["amount__sum"]
+            transaction_type__iexact="expenditure",
+            transaction_date__month=current_month,
+        ).aggregate(sum=Sum("amount"))["sum"]
 
     def create_transaction(
         self,
@@ -334,7 +335,7 @@ class User:
             notes -> Any optional notes for the transaction.
         """
         tr = models.Transaction(
-            user=self.id,
+            user=self._db_user,
             transaction_type=transaction_type,
             amount=amount,
             transaction_date=transaction_date,
@@ -359,7 +360,7 @@ class User:
         """
         Deletes a transaction with the specified ID.
         """
-        tr = models.User.transaction_set.get(pk=transaction_id)  # type: ignore
+        tr = self._db_user.transaction_set.get(pk=transaction_id)  # type: ignore
         tr.delete()
 
 

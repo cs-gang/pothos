@@ -5,6 +5,7 @@
 {% block navbuttons %} {% endblock %}
 
 {% block signin %}
+<a href="#" class="navbar-item is-size-5"> {{ username }}</a>
 <a href="/user/logout" class="navbar-item has-background-warning has-text-success is-size-6 my-3 mx-4">Log out</a>
 {% endblock %}
 
@@ -28,70 +29,105 @@
 <div id="Budget" class="my-6 mx-6">
     <div class="box has-background-warning mx-3 my-4">
         <div class="columns">
-            <p class="column is-size-4">Total Income: </p>
-            <p class="column is-size-4">Total Spending: </p>
-            <p class="column is-size-4">Remaining Amount: </p>
+            <p class="column is-size-4">Total Income: {{ total_income }} {{ currency }}</p>
+            <p class="column is-size-4">Total Spending: {{ total_expenditure }} {{ currency }}</p>
+            <p class="column is-size-4">Remaining Amount: {{ difference }}{{ currency }}</p>
         </div>
     </div>
 
     <div class="box has-background-warning mx-3 my-4">
         <div class="is-size-3 has-text-centered mb-6">Income and Spendings</div>
-        <div class="columns">
-            <div class="column px-6">
-                <div class="box has-background-primary py-2 px-5">
-                    <span class="is-size-5">Salary</span>
-                    <div class="is-pulled-right mt-1">
-                        <button class="delete is-medium"></button>
-                    </div>
-                </div>
 
-                <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
-                    <a class="pagination-previous has-background-success has-text-warning">Previous</a>
-                    <a class="pagination-next has-background-success has-text-warning">Next page</a>
-                    <ul class="pagination-list">
-                        <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="column px-6">
-                <div class="box has-background-danger py-2 px-4">
-                    <span class="is-size-5">Spending</span>
-                    <div class="is-pulled-right px-2">
-                        <div class="tag is-warning has-text-success mr-2 is-size-6">Rent</div>
-                        <button class="delete is-medium mt-1"></button>
+        <div class="columns">
+
+            <div id="incomeHolder" class="column px-6">
+
+                {% for monthlyIncome in incomes %}
+                {% for income in monthlyIncome %}
+                <div class="box has-background-primary py-2 px-5">
+                    <span class="is-size-5">{{ income.name }}
+                        <span style="opacity: 60%;"> {{ income.amount }} {{ currency }} </span>
+                    </span>
+                    <div class="is-pulled-right mt-1">
+                        <form method="POST" action="/transaction/delete">
+                            {% csrf_token %}
+                            <input name="id" type="text" value="{{ income.id }}" style=display:none>
+                            <button class="delete is-medium"></button>
+                        </form>
                     </div>
                 </div>
-                <nav class="pagination is-centered mt-6" role="navigation" aria-label="pagination">
+                {% endfor %}
+                <hr>
+                {% endfor %}
+
+                <!--
+                <nav id="incomePagination" class="pagination is-centered mt-6" role="navigation"
+                    aria-label="pagination">
                     <a class="pagination-previous has-background-success has-text-warning">Previous</a>
                     <a class="pagination-next has-background-success has-text-warning">Next page</a>
                     <ul class="pagination-list">
                         <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
                     </ul>
                 </nav>
+                -->
+            </div>
+
+            <div id="spendingHolder" class="column px-6">
+
+                {% for monthlyExpenditure in expenditures %}
+                {% for expenditure in monthlyExpenditure %}
+                <div class="box has-background-danger py-2 px-4">
+                    <span class="is-size-5">{{ expenditure.name }}
+                        <span style="opacity: 60%;"> {{ expenditure.amount }} {{ currency }} </span> </span>
+                    <span class=" tag is-warning has-text-success ml-2 is-size-6">{{ expenditure.tags }}</span>
+                    <div class="is-pulled-right px-2">
+                        <form method="POST" action="/transaction/delete">
+                            {% csrf_token %}
+                            <input name="id" type="text" hidden value="{{ expenditure.id }}" style=display:none>
+                            <button class="delete is-medium mt-1"></button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+                <hr>
+                {% endfor %}
+                <!--
+                <nav id="spendingPagination" class="pagination is-centered mt-6" role="navigation"
+                    aria-label="pagination">
+                    <a class="pagination-previous has-background-success has-text-warning">Previous</a>
+                    <a class="pagination-next has-background-success has-text-warning">Next page</a>
+                    <ul class="pagination-list">
+                        <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                    </ul>
+                </nav>
+                -->
             </div>
         </div>
         <div class="button is-primary is-rounded is-pulled-right" id="ModalButton" data-target="modal"> &plus; </div>
         <div class="modal">
             <div class="modal-background"></div>
             <div class="modal-content is-clipped">
-                <form class="box has-background-warning columns" method="POST" action="">
+                <form class="box has-background-warning columns" method="POST" action="/transaction/new">
+                    {% csrf_token %}
                     <div class="column">
                         <div class="field">
-                            <label for="budget-title" class="label">Title</label>
+                            <label for="title" class="label">Title</label>
                             <div class="control">
-                                <input type="text" id="budget-title" placeholder="Enter the name/title: " class="input">
+                                <input maxlength="35" type="text" id="title" name="title"
+                                    placeholder="Enter the name/title: " class="input">
                             </div>
                         </div>
                         <div class="field">
-                            <label for="budget-amount" class="label">Amount</label>
+                            <label for="amount" class="label">Amount</label>
                             <div class="control">
-                                <input type="text" id="budget-amount" placeholder="Enter the amount: " class="input">
+                                <input type="number" id="amount" name="amount" placeholder="Enter the amount: "
+                                    class="input">
                             </div>
                         </div>
                         <div class="field">
-                            <label for="budget-date" class="label">Date</label>
+                            <label for="date" class="label">Date</label>
                             <div class="control">
-                                <input type="date" id="budget-date">
+                                <input type="date" id="date" name="date">
                             </div>
                         </div>
                         <div class="field">
@@ -102,18 +138,18 @@
                     </div>
                     <div class="column">
                         <div class="field">
-                            <label for="budget-type" class="label">Type</label>
+                            <label for="type" class="label">Type</label>
                             <div class="control select">
-                                <select name="budget-type" id="budget-type" onchange="displayTypeOfSpending()">
+                                <select name="type" id="type" onchange="displayTypeOfSpending()">
                                     <option value="Income">Income</option>
-                                    <option value="Spending">Spending</option>
+                                    <option value="expenditure">Spending</option>
                                 </select>
                             </div>
                         </div>
                         <div class="field">
-                            <label for="spending-type" class="label">Type of Spending</label>
+                            <label for="spending_type" class="label">Type of Spending</label>
                             <div class="control select">
-                                <select name="spending-type" id="spending-type" disabled>
+                                <select name="spending_type" id="spending_type" disabled>
                                     <option value="Rent">Rent</option>
                                     <option value="Food/Groceries">Food/Groceries</option>
                                     <option value="Material Goods">Material Goods</option>
@@ -123,9 +159,9 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label for="budget-notes" class="label">Notes</label>
+                            <label for="notes" class="label">Notes</label>
                             <div class="control">
-                                <textarea name="budget-notes" id="budget-notes" cols="30" rows="3"
+                                <textarea maxlength="300" name="notes" id="notes" cols="30" rows="3"
                                     class="textarea"></textarea>
                             </div>
                         </div>
@@ -143,7 +179,6 @@
 {% block script %}
 
 <script>
-
     //tabs handling
     /*
     let tabs = document.querySelector(".tabs").children[0].children;
@@ -194,8 +229,8 @@
     )
 
     //Type of spending handling
-    let budgetType = document.getElementById("budget-type");
-    let typeOfSpending = document.getElementById("spending-type");
+    let budgetType = document.getElementById("type");
+    let typeOfSpending = document.getElementById("spending_type");
 
     function displayTypeOfSpending() {
         if (budgetType.value == "Income") {
@@ -204,6 +239,23 @@
             typeOfSpending.disabled = false;
         }
     }
+
+    //Delete Transaction
+    function deleteTransaction(button) {
+        let parent = button.parentElement.parentElement.parentElement;
+        console.log(parent.id)
+        parent.remove()
+    }
+
+    //Manage Pagination
+    /*
+    let incomePagination = document.getElementById("incomePagination");
+    let spendingPagination = document.getElementById("spendingPagination");
+    let incomeHolder = document.getElementById("incomeHolder");
+    let spendingHolder = document.getElementById("spendingHolder");
+
+    incomePagination.style.display = "none";
+    pendingPagination.style.display = "none";*/
 
 </script>
 {% endblock %}

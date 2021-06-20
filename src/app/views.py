@@ -61,6 +61,18 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     this_month_income = user.get_total_income()
     this_month_expenditure = user.get_total_expenditure()
 
+    if this_month_expenditure is None and this_month_income is None:
+        # both Nones, no preexisting transactions
+        difference = None
+    elif this_month_income is None:
+        # if income none but expenditure not none, difference is negative
+        difference = -this_month_expenditure
+    elif this_month_expenditure is None:
+        # expenditure none, so difference is positive
+        difference = this_month_income
+    else:
+        difference = this_month_income - this_month_expenditure
+
     return render(
         request,
         "budget.html",
@@ -71,6 +83,7 @@ def dashboard(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
             "username": user.username,
             "total_income": this_month_income,
             "total_expenditure": this_month_expenditure,
+            "difference": difference,
         },
     )
 
@@ -82,7 +95,6 @@ def create_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpR
     Creates a new transaction for the user.
     """
     form = forms.TransactionForm(request.POST)
-    print(request.POST)  # TODO: remove debug prints
 
     if form.is_valid():
         user.create_transaction(
@@ -99,15 +111,13 @@ def create_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpR
         )
 
 
-@require_POST
 @auth.authenticated()
 def delete_transaction(request: http.HttpRequest, user: auth.User) -> http.HttpResponse:
     """
     Deletes a transaction with the given transaction ID.
     """
-    print(request.POST)
-    transaction_id = int(request.POST["id"][0])
-    user.delete_transaction(transaction_id)
+    id = int(request.POST["id"])
+    user.delete_transaction(id)
     return redirect("dashboard")
 
 
